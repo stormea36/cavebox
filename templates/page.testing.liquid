@@ -1,0 +1,252 @@
+
+  <div id="builderWrapper">
+    <form id="add-item-form" class="variants clearfix">
+    <div class="builderLeftBar">
+
+        <div class="categoryList" id="steps-full">
+      
+          <div class="step_top"><span class='fa fa-list'></span>
+            <span id="step_name">Select Category</span> 
+            <span class="caret"></span>
+          </div><!-- end step_top -->
+            
+          <div data-id="1" data-len="2" id="stepH1" data-name="Body Care" class="category current_step">
+             <div  class="categoryName">
+               Body Care       
+             </div><!-- end step header name-->
+          </div><!-- end step_header -->
+          <div data-id="2" data-len="1" id="stepH2" data-name="Hair Care" class="category">
+             <div class="categoryName">
+               Hair Care        
+             </div><!-- end step header name-->
+          </div><!-- end step_header -->
+          <div data-id="3" data-len="2" id="stepH3" data-name="Oral Care" class="category">
+            <div class="categoryName">
+              Oral Care      
+            </div><!-- end step header name-->
+          </div><!-- end step_header -->
+          <div data-id="4" data-len="1" id="stepH4" data-name="Skin Care" class="category">
+              <div class="categoryName">
+               Skin Care  
+              </div><!-- end step header name-->
+          </div><!-- end step_header -->
+          <div data-id="5" data-len="3" id="stepH5" data-name="Extras" class="category">
+           <div class="categoryName">
+             Extras     
+               </div><!-- end step header name-->
+          </div><!-- end step_header --> 
+        </div><!-- #categoryList -->
+
+        <div class="cartSection">
+          <label>Your Box:</label>
+          <div class="cartHolder">
+            <div class="cartList"></div> <!--end cart List -->
+          </div> <!-- end cartHolder -->
+          <div class="cartRow"><label class="cartLabel">SubTotal:</label><span id="cartSub">$0.00</span></div>
+          <div class="cartRow"><label class="cartLabel">Shipping:</label><span id="cartShip"></span></div>
+          <div class="cartRow"><label class="cartLabel">Total:</label><span id="cartTot"></span></div>
+          <div class="submit-bttn">
+          <input type="submit" class="bttn" name="add" value="Proceed to Cart" id="submit-modal"/>
+        </div>
+        </div> <!--end cart section --> 
+        
+        <br/>
+    </div><!-- end cartLeftBar -->
+
+    <div class="itemsWrapper">   
+      <div class="itemsBody">
+
+        <!-- code for the actual items --> 
+        <div id="step_1" class="step_details present">
+          <div class="itemCollection">
+            {% for product in collections.b1_body.products %}  
+            <div class="item" id="item-1{{forloop.index0}}" data-var="{{product.variants.first.id}}" data-price="{{ product.price }}" picked="" data-title="{{ product.title }}" data-pic="{{ product.featured_image | product_img_url: 'small' }}"> 
+              <div class="itemCover">
+                <div class="itemImage">
+                  <img src="{{ product.featured_image | product_img_url: 'medium' }}" />
+                </div> <!-- end item image section -->
+                <div class="itemInfo">
+                  <div class="itemTitle">
+                    {{ product.title }}
+                  </div> <!--end item title -->
+                  <div class="itemPrice">
+                    {{ product.price | money }}
+                  </div> <!-- end item Price -->
+                  <div class="itemMoreInfo">
+                    <a href="#" class="item-tip" data-original-title="{{ product.title }}" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ product.description }}">
+                      More Info
+                    </a>
+                  </div> <!-- end item More Info -->
+                </div> <!--end item info section -->
+              </div> <!--item Cover-->  
+            </div><!-- end item -->
+            {% endfor %}
+          </div> <!-- end itemCollection -->
+        </div> <!-- end #step id 1 -->
+
+        <!-- code for the actual items --> 
+        <div id="step_2" class="step_details">
+          <div class="itemCollection">
+            {% for product in collections.b1_hair.products %}  
+            <div class="item" id="item-2{{forloop.index0}}" data-var="{{product.variants.first.id}}" data-price="{{ product.price }}" picked="" data-title="{{ product.title }}" data-pic="{{ product.featured_image | product_img_url: 'small' }}"> 
+              <div class="itemCover">
+                <div class="itemImage">
+                  <img src="{{ product.featured_image | product_img_url: 'medium' }}" />
+                </div> <!-- end item image section -->
+                <div class="itemInfo">
+                  <div class="itemTitle">
+                    {{ product.title }}
+                  </div> <!--end item title -->
+                  <div class="itemPrice">
+                    {{ product.price | money }}
+                  </div> <!-- end item Price -->
+                  <div class="itemMoreInfo">
+                    <a href="#" class="item-tip" data-original-title="{{ product.title }}" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ product.description }}">
+                      More Info
+                    </a>
+                  </div> <!-- end item More Info -->
+                </div> <!--end item info section -->
+              </div> <!--item Cover-->  
+            </div><!-- end item -->
+            {% endfor %}
+          </div> <!-- end itemCollection -->
+        </div> <!-- end #step id 2 -->
+
+        <!-- code for the actual items --> 
+        <div id="step_3" class="step_details">
+          <div class="itemCollection">
+            {% for product in collections.b1_oral.products %}  
+            <div class="item" id="item-3{{forloop.index0}}" data-var="{{product.variants.first.id}}" data-price="{{ product.price }}" picked="" data-title="{{ product.title }}" data-pic="{{ product.featured_image | product_img_url: 'small' }}"> 
+              <div class="itemCover">
+                <div class="itemImage">
+                  <img src="{{ product.featured_image | product_img_url: 'medium' }}" />
+                </div> <!-- end item image section -->
+                <div class="itemInfo">
+                  <div class="itemTitle">
+                    {{ product.title }}
+                  </div> <!--end item title -->
+                  <div class="itemPrice">
+                    {{ product.price | money }}
+                  </div> <!-- end item Price -->
+                  <div class="itemMoreInfo">
+                    <a href="#" class="item-tip" data-original-title="{{ product.title }}" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ product.description }}">
+                      More Info
+                    </a>
+                  </div> <!-- end item More Info -->
+                </div> <!--end item info section -->
+              </div> <!--item Cover-->  
+            </div><!-- end item -->
+            {% endfor %}
+          </div> <!-- end itemCollection -->
+        </div> <!-- end #step id 3 -->
+
+        <!-- code for the actual items --> 
+        <div id="step_4" class="step_details">
+          <div class="itemCollection">
+            {% for product in collections.b1_skin.products %}  
+            <div class="item" id="item-4{{forloop.index0}}" data-var="{{product.variants.first.id}}" data-price="{{ product.price }}" picked="" data-title="{{ product.title }}" data-pic="{{ product.featured_image | product_img_url: 'small' }}"> 
+              <div class="itemCover">
+                <div class="itemImage">
+                  <img src="{{ product.featured_image | product_img_url: 'medium' }}" />
+                </div> <!-- end item image section -->
+                <div class="itemInfo">
+                  <div class="itemTitle">
+                    {{ product.title }}
+                  </div> <!--end item title -->
+                  <div class="itemPrice">
+                    {{ product.price | money }}
+                  </div> <!-- end item Price -->
+                  <div class="itemMoreInfo">
+                    <a href="#" class="item-tip" data-original-title="{{ product.title }}" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ product.description }}">
+                      More Info
+                    </a>
+                  </div> <!-- end item More Info -->
+                </div> <!--end item info section -->
+              </div> <!--item Cover-->  
+            </div><!-- end item -->
+            {% endfor %}
+          </div> <!-- end itemCollection -->
+        </div> <!-- end #step id 4 -->
+
+        <!-- code for the actual items --> 
+        <div id="step_5" class="step_details">
+          <div class="itemCollection">
+            {% for product in collections.b1_extras.products %}  
+            <div class="item" id="item-5{{forloop.index0}}" data-var="{{product.variants.first.id}}" data-price="{{ product.price }}" picked="" data-title="{{ product.title }}" data-pic="{{ product.featured_image | product_img_url: 'small' }}"> 
+              <div class="itemCover">
+                <div class="itemImage">
+                  <img src="{{ product.featured_image | product_img_url: 'medium' }}" />
+                </div> <!-- end item image section -->
+                <div class="itemInfo">
+                  <div class="itemTitle">
+                    {{ product.title }}
+                  </div> <!--end item title -->
+                  <div class="itemPrice">
+                    {{ product.price | money }}
+                  </div> <!-- end item Price -->
+                  <div class="itemMoreInfo">
+                    <a href="#" class="item-tip" data-original-title="{{ product.title }}" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ product.description }}">
+                      More Info
+                    </a>
+                  </div> <!-- end item More Info -->
+                </div> <!--end item info section -->
+              </div> <!--item Cover-->  
+            </div><!-- end item -->
+            {% endfor %}
+          </div> <!-- end itemCollection -->
+        </div> <!-- end #step id 5 -->
+
+      </div><!-- end items body -->
+    </div><!-- end items Wrapper -->
+    </form>
+  </div> <!-- end builderWrapper -->
+
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Let's build your box.</h4>
+      </div>
+      <div class="modal-body">
+        <h3>Building your box is as easy as 1, 2, 3.</h3>
+        <p>1.  Use the navigation on the left to look through the wide array of products we offer. From Body wash to incense, we have it all.</p>
+        <p>2. Select a minimum of $15 and at $30, shipping is free!</p>
+        <p>3. Make sure you got everything you need then let us know where to ship and we'll take care of the rest. You focus on being awesome.</p>
+
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Get started</button>
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+  
+<div class="modal fade" id="cartModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Everything look good?</h4>
+      </div>
+      <div class="modal-body">
+        <form action="/cart" method="post" id="cartform">
+        <div id="cartModalBody">
+          
+        </div>
+        <div class="cartMRow"><label class="cartMLabel">SubTotal:</label><span id="cartMSub">$0.00</span></div>
+          <div class="cartMRow"><label class="cartMLabel">Shipping:</label><span id="cartMShip"></span></div>
+          <div class="cartMRow"><label class="cartMLabel">Total:</label><span id="cartMTot"></span></div>
+        <button type="button" class="btn btn-primary" name="checkout"id="checkout">Check out</button>
+
+        <button type="button" class="btn btn-warning" data-dismiss="modal" aria-hidden="true">not ready</button>
+      </form>
+      </div> <!-- end modal-body -->
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+ 
+
+  
+  {% include 'order-form-script' %}
+  {% include 'builderv3-style' %}

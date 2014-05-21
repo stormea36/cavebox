@@ -1,0 +1,44 @@
+<script type="text/javascript" charset="utf-8">
+//<![CDATA[
+// Including jQuery conditionnally.
+if (typeof jQuery === 'undefined') {
+    document.write({{ "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" | script_tag | json }});
+	document.write('<script type="text/javascript">jQuery.noConflict();<\/script>');
+}
+//]]>
+</script>
+<script type="text/javascript" charset="utf-8">
+
+  
+console.log("testing to see builder load")
+var length = $( ".extra_box" ).children(".correct");
+var toAdd =  new Array();
+var extVar = new Array();
+var extQty = new Array();
+extCounter = 0;
+ext_limit = 2;
+
+
+  $(document).ready(function() {
+	$('.step_header').click(function() {
+		clicked_step = "#step_"+$(this).data("id");
+      	clicked_stepH = "#stepH"+$(this).data("id");
+      if(clicked_step !== last_step) {  //clicked on a new step, hide old step
+        $(last_step).toggleClass("present");
+        temp = clicked_step;
+        last_step = temp;
+        $(last_step).toggleClass("present");
+      }
+      if(clicked_stepH !== last_step_header) {  //clicked on a new step, hide old step
+        $(last_step_header).toggleClass("current_step");
+        tempH = clicked_stepH;
+        last_step_header = tempH;
+        $(last_step_header).toggleClass("current_step");
+      }
+  
+  
+  });
+  
+  
+  
+</script>

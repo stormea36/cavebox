@@ -1,0 +1,173 @@
+<div id="page" class="row">  
+    
+<style>
+#picture {background-color:#ffffff; display:inline;}
+#picture > a.small, #picture a.small:visited { display:inline-block; text-decoration:none; background:#ffffff; top:0; left:0; border:0;}
+#picture > a img {border:0;}
+#picture > a.small:hover {text-decoration:none; color:#000000;}
+#picture > a .large {display:block; position:absolute; width:0; height:0; border:0;}
+#picture > a.small:hover .large {display:block; position:absolute; width:200px; height:200px;-webkit-box-shadow: 5px 5px 8px 5px rgba(50,50,50,1);
+box-shadow: 5px 5px 8px 5px rgba(50,50,50,1); }
+
+  #box_opt { font-style:italic; }
+</style>
+
+  <form id="add-item-form" class="variants clearfix">
+    
+   
+    
+    	<div class="box np">
+  			<div class="box-inner">
+            	<div class="tab_header">
+                <h1>Click-And-Go Curated Boxes </h1>
+                  Here are an assortment of pre-packaged boxes that have everything all ready to go.  Select your box, then select your extras and you can be on your way.
+          		</div>
+              	<div class="tab_box">
+                  <br/>
+              		<ul class="unstyled">
+                      
+              		<li class="third_item">
+                      <h2 class="test_font tc">The Original</h2>
+                 			<div class="tc">
+                        	<div class="item-half">
+                              <img src="{{ 'The_Original.jpg' | asset_url }}" />
+                             </div>
+                              <div class="item-half">  
+                                <p><b>Price:</b> $15 <br/>6 hygiene essentials <br/>  +2 FREE Extras<br/> <p>
+                                  <!--<ul class="unstyled">
+                                    <li>Dove Men's Deep Clean</li>
+                                	<li>Suave Men's Hair and Body Wash</li>
+                                    <li>Speed Stick Deoderant/Anti-persperant</li>
+                                    <li>Spring Mint Mouthwash</li>
+                                    <li>Crest Whitening w/ Baking Soda</li>
+                                    <li>Plackers Whitening Flossers  </li>
+                                </ul>-->
+                 				<a href="#" data-reveal-id="extModal" class="box_opt select_change" data-box="The Original" data-limit="2" data-val="568336373"><button class="btn-small">The Original</button></a> 
+                                  <br/>
+                           		</div><!--end item-filler-->
+                 			</div>
+              		</li>
+              
+                    <li class="third_item">
+                      <h2 class="test_font tc">The Caveman</h2>
+                      <div class="tc"> 
+                        <div class="item-half">
+                          <img src="{{ 'The_Caveman.jpg' | asset_url }}" />
+                        </div>
+                        <div class="item-half">  
+                          <p><b>Price:</b> $25 <br/> 8 Hygiene Essentials <br/> +3 FREE Extras<br/> </p>
+                          <a href="#" data-reveal-id="extModal" class="box_opt select_change" data-box="The Caveman" data-limit="3" data-val="568339965"><button class="btn-small">The Caveman</button></a> 
+                          <br/>
+                      </div>
+                      </div><!--end item-filler-->
+                  </li>
+              
+              
+                  <li class="third_item">
+                        <h2 class="test_font tc">The Hunter</h2>
+                        <div class="tc">
+                          <div class="item-half">  
+                          <img src="{{ 'The_Hunter.jpg' | asset_url }}" />
+                          </div>
+                            <div class="item-half">
+                              <p><b>Price:</b> $35 <br/> 10 Hygiene Essentials <br/> +4 FREE Extras<br/></p> 
+                          <a href="#" data-reveal-id="extModal" class="box_opt select_change" data-box="The Hunter" data-limit="4" data-val="568340901"><button class="btn-small">The Hunter</button></a> 
+                            <br/> 
+                        </div><!-- end item-filler -->
+                    </div><!--end tc third-info -->
+                </li> 
+          </ul>
+           <input id="boxQty" type="hidden" name="quantity" value="1" />
+                <br/>
+                <br/>
+            <div class="tc">    
+           <h1 style="font-size:20px;">Want more flexibility?  Build your own <a href="http://thecavebox.myshopify.com/pages/product-builder">customized cavebox</a></h1> 
+                </div>   
+         </div> <!--end tabs open_tab-->	     
+              
+      </div> <!-- end box-inner --> 
+  </div> <!-- end box --> 
+  
+<!--  <div class="layer" id="what"> 
+  	<div class="container">
+-->
+    
+    
+    
+    
+    <!-- test new box section
+	<
+	<
+	<
+	<
+	<
+	<
+	<
+	-->
+    	
+      
+ <!--	 </div>  end container -->      	
+  	
+    
+    
+    
+  
+    <!--
+    <div class="box">
+      <div class="box-inner">
+        
+        <div>
+          <div class="extra_item tc" id="car1" data-item=""></div>
+          <div class="extra_item tc" id="car2" data-item=""></div>
+          <div class="extra_item tc" id="car3" data-item=""></div>
+          <div class="extra_item tc" id="car4" data-item=""></div>
+       </div>
+    </div>
+    </div>
+
+	-->
+    <div id="extModal" class="reveal-modal" data-reveal-id="myModal" data-animation="fade">
+      <h1 style="width:100%;padding-bottom:5px;" class="tab_header">Pick your Extras <span class='note' id="box_select"><span id="box_opt"></span> - <span id="box_ct"></span> extras</span></h1>
+    <div class="tab_box">
+    	<!--<p><span id="box_opt"></span> <span id="box_ct"></span> Extras</p>-->
+    	
+    		<div style="display:none;">
+        		<select type="hidden" name="boxChoice" id="boxChoice">
+                     <option id="origChoice" value="568336373">o</option>
+                     <option id="caveChoice" value="568339965">c</option>
+                     <option id="huntChoice" value="568340901">h</option>
+                  </select>
+    		</div>      
+     		<div class="extra_box tc">
+         	{% for product in collections.extras.products %}   
+          		<div class="extra_item tc" id="ext-{{forloop.index0}}" data-pos="0" data-loop="{{forloop.index0}}" data-qty="quantity-{{ forloop.index0 }}" data-var="variant-{{ forloop.index0 }}">
+              		<div class="ext_cover">	
+                      <img src="{{ 'green-checkmark.png' | asset_url }}" class="green-check" id="check-{{forloop.index0}}" />
+                  		
+                      	<img src="{{ product.featured_image | product_img_url: 'medium' }}" height="100px" />
+              			<br />{{ product.title }}
+                 		<br />{{ product.price | money }}
+                		<div style="display:none;">
+                  		<select id="product-select" name="id">
+                    	<option type="hidden"  value="{{product.variants.first.id}}" id="variant-{{ forloop.index0 }}"/>
+                  		</select>
+                  		<input id="quantity-{{ forloop.index0 }}" type="hidden" name="quantity" value="0" class="tc item-quantity" />
+            			</div> <!-- end display none -->
+                  </div> <!--ext_cover-->
+              	</div><!--end extra_item -->
+         	{% endfor %}
+            </div><!--end extra_box-->
+    </div> <!--end tab_box-->
+      <div class="tc">
+        <input type="submit" class="btn" name="add" value="Proceed to Cart" id="submit-table"/>
+      </div>
+     <a class="close-reveal-modal">&#215;</a>
+	</div>
+  <div class="box np">
+    
+   </div> <!-- end box -->
+    
+ </form> 
+      
+</div><!--end #id -->
+  {% include 'order-form-script' %}

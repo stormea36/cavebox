@@ -1,0 +1,225 @@
+<!-- Bold Apps: Premium Options --> 
+
+<!-- Facebook Conversion Code for Build a Box -->
+<script type="text/javascript">
+var fb_param = {};
+fb_param.pixel_id = '6013241247376';
+fb_param.value = '0.01';
+fb_param.currency = 'USD';
+(function(){
+var fpw = document.createElement('script');
+fpw.async = true;
+fpw.src = '//connect.facebook.net/en_US/fp.js';
+var ref = document.getElementsByTagName('script')[0];
+ref.parentNode.insertBefore(fpw, ref);
+})();
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6013241247376&amp;value=0.01&amp;currency=USD" /></noscript>
+<script>
+  function update_qty_builder(builder_id, qty){
+    $('.'+builder_id+"_qty").val(qty.value); 
+  } 
+  function remove_product_builder(builder_id){ 
+    $('.'+builder_id+"_qty").val(0); $('.'+builder_id+"_qty").parents("form").submit(); 
+  }
+  
+
+</script>
+
+<div id="cart">
+  <h1>Your Shopping Cart</h1>
+  <!-- Begin empty cart -->
+  {% if cart.item_count == 0 %}
+  <div class="row test">
+    <div class="span12 expanded-message">
+      <h2>Your cart is empty</h2>
+    </div>
+  </div>
+  <!-- End empty cart -->
+  
+  <!-- Begin cart -->
+  {% else %}
+  <div class="row test">
+    <div class="span12">
+      
+      <form action="/cart" method="post" id="cartform">
+        <table>
+          <thead>
+            <tr>
+              <th class="image">&nbsp;</th>
+              <th class="item">&nbsp;</th>
+              <th class="qty">Quantity</th>
+              <th class="price">Price</th>
+              <th class="remove">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+             
+              
+            
+            {% for item in cart.items %}
+          	
+            <tr>
+            {% if item.properties.master_builder == blank %} <!-- Bold Apps: Product Builder (Step 2) -->
+            <!-- this is for all items not included in the first variable sent from
+			the builder -->
+                <td class='tc'>
+                  <a href="{{ item.product.images.first | product_img_url: 'large' }}"><img src="{{ item.product.images.first | product_img_url: 'small' }}" alt="product image" /></a>
+              	</td>
+        		<td class="item">
+                  {{ item.title }}
+              	</td>
+              	<td class="qty tc">
+        			<input type="text" size="4" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" onfocus="this.select();" class="tc item-quantity {{ item.properties.builder_id }}_qty" {% if item.product.metafields.inventory.ShappifyHidden == "true" %} readonly="readonly" {% endif %}/>
+				</td>
+          		<td class="price">
+            		{{ item.price | money }}
+           		</td>
+              <td class="remove">
+              {% if item.properties.builder_info == blank %} 
+              <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart test">Remove</a>
+              {% else %}
+              <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart {{ item.properties.builder_id }}_remove" onclick="remove_product_builder('{{item.properties.builder_id}}');">Remove</a>
+			  {% endif %}
+              </td>
+              
+            {% else %}<!-- 2-10 install -->
+            	{% if item.properties.builder_info %}
+					{% assign builder = item.properties.builder_info | split: '~~' %}
+              <!-- breaks into three parts, caveman~~undefined~~the-caveman -->
+				{% endif %}
+				<!--
+              	{% assign item_price = 0 %}
+				{% assign item_line_price = 0 %}
+				{% for price_item in cart.items %}
+					{% unless price_item.properties.builder_id == blank %}
+						{% if price_item.properties.builder_id == item.properties.builder_id %}
+							{% capture temp %}{{ item_price | plus: price_item.price }}{% endcapture %}
+							{% assign item_price = temp %}
+							{% capture temp %}{{ item_line_price | plus: price_item_line_price }}{% endcapture %}
+							{% assign item.line_price = temp %}
+						{% endif %}
+					{% endunless %}
+				{% endfor %}
+				-->
+            </tr>
+			
+            <tr class="item {{ builder[0] }} test5"><!--this is the main top item -->
+              <td class="image">
+                <div class="product_image">
+                  
+                    {% if builder[0] %}
+                  {% if cart.total_price >= 4000 %}
+                    <h3 class="test_font">The Hunter</h3>
+                  {% else %}
+                    <h3 class="test_font">{{ builder[0] }}</h3>
+                  {% endif %}
+					{% else %}
+                    <img src="{{ item.product.featured_image | product_img_url: 'small' }}"  alt="{{ item.product.title }}" />
+                    {% endif %}
+                  
+                </div>
+              </td>
+              
+              <td class="item"> <!--this is the main
+
+                <h3><a href="{{item.product.url }}">
+                  <strong>{{ item.product.title }}</strong>
+                  {% if item.product.variants.size > 1 %}
+                  <span class="variant_title">{{ item.variant.title }}</span>
+                  {% endif %}
+                </a>
+                  </h3>
+                <!-- 2.2 install -->
+
+                {% for p in item.properties %}
+                	{% if p.first contains "builder" %}
+
+                <!-- hide initial variables passed from builder -->
+                	{% else %}
+                		{% if p.last contains "$" %}
+                		{% assign vars = p.last | split: "$ " %}
+                		{% else %}
+                 <br /><b>{{p.first}}</b>: {{p.last }} - included 
+                		{% endif %}
+                	{% endif %} 
+			  {% endfor %} 
+              </td>
+              
+              <td class="qty">
+                {% if item.properties.builder_id == blank %}
+				<input type="text" size="4" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" onfocus="this.select();" class="tc item-quantity test" {% if item.product.metafields.inventory.ShappifyHidden == "true" %} readonly="readonly" {% endif %}/>
+              	{% else %}
+                <input type="text" size="4" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" onfocus="this.select();" class="tc item-quantity {{ item.properties.builder_id }}_qty" onchange="update_qty_builder('{{item.properties.builder_id}}', this);" {% if item.product.metafields.inventory.ShappifyHidden == "true" %} readonly="readonly" {% endif %}/>
+				{% endif %}
+              </td>
+              <td class="price">{{ item.price | money }}</td>
+              <!-- 2.3 - 2.6 install -->
+              <td class="remove">
+              {% if item.properties.builder_info == blank %} 
+              <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart">Remove</a>
+              {% else %}
+              <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart {{ item.properties.builder_id }}_remove" onclick="remove_product_builder('{{item.properties.builder_id}}');">Remove</a>
+			  {% endif %}
+              </td>
+            </tr> <!--this is the end of the main item-->
+            
+        
+            {% endif %}
+            {% endfor %}
+          
+    		
+      		<tr class="summary">
+              <td class="image">&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td class="price"><span class="total"><strong>{{ cart.total_price | money }}</strong></span></td>
+              <td>&nbsp;</td>
+            </tr>
+
+          </tbody>
+        </table>
+        
+        <div class="buttons clearfix">
+          <input type="submit" id="checkout" class="btn" name="checkout" value="Checkout" />
+          <input type="submit" id="update-cart" class="btn" name="update" value="Update" />
+        </div>
+        
+        {% if settings.display_extra_checkout_buttons or settings.display_cart_note %}
+        <div class="row">
+          {% if settings.display_extra_checkout_buttons %}
+          <div class="extra-checkout-buttons span6">
+            {% if additional_checkout_buttons %}
+            {{ content_for_additional_checkout_buttons }}
+            {% endif %}
+          </div>
+          {% endif %}
+          {% if settings.display_cart_note %}
+          <div class="span6">
+            <div class="checkout-buttons clearfix">
+              <label for="note">Add special instructions for your order...</label>
+              <textarea id="note" name="note" rows="10" cols="50">{{ cart.note }}</textarea>
+            </div>
+          </div>
+          {% endif %}
+        </div> 
+        {% endif %}
+        {% endif %}
+
+      </form>
+    </div>
+
+    {% if cart.item_count == 0 and settings.featured_products and settings.featured_products != '' and collections[settings.featured_products].handle == settings.featured_products and collections[settings.featured_products].products_count > 0 %}
+    <div class="cart-featured">
+      <h3 class="featured-cart-title">Featured Items</h3>
+      {% for product in collections[settings.featured_products].products limit: 4 %}
+	      {% include 'product-loop' %}
+  	  {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+  <div class="test"></div>
+  <!-- End cart -->
+</div> 
+

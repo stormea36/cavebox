@@ -1,0 +1,315 @@
+<script type="text/javascript" charset="utf-8">
+//<![CDATA[
+// Including jQuery conditionnally.
+if (typeof jQuery === 'undefined') {
+    document.write({{ "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" | script_tag | json }});
+  document.write('<script type="text/javascript">jQuery.noConflict();<\/script>');
+}
+//]]>
+</script>
+
+<script>
+  console.log("this is the page-testing script") 
+
+  $('.item-tip').popover({ 
+    trigger: "hover",
+    html: true
+  });
+
+  $('#myModal').modal({
+  show:true
+})
+
+  //variables for new product builder
+  minPrice = 1500;
+  shipCost = 500;
+  freeShip = 3000;
+
+  last_step = '#step_1';
+  last_step_header = '#stepH1';
+  currentCart = [];
+  cartLen = currentCart.length;
+  toAdd = [];
+
+  function priceFormat(value) {
+    val = value/100;
+    if( val.length = 1 ) { val = "$"+val }
+    else { val = "$"+val }
+    return val;
+  }
+
+  function priceAdjust(qty, price) {
+    sub = qty * price;
+    return sub;
+  }
+  // cartDisplay() function updates the items in the cart
+  // index argument passes the ID of the proper item
+  // age argument passes whether new item or existing item
+  function cartDisplay(index, age) {
+      // priceFormat() function formats value into money
+      // value is passed as hundred value and returned as money
+
+      //variables to pull from item   
+      cIndex = index;
+      crtItmTitle = currentCart[cIndex].title;
+      crtItmQty = currentCart[cIndex].qty;
+      crtItmPrice = currentCart[cIndex].subPrice;
+      crtItmPrice = priceFormat(crtItmPrice);
+      //update cartTotals
+      cartTotals();
+
+      
+      //if new (age == 1) append the cart structure to cartList
+      //if not new (age == 2), adjust values based on cart object
+      if(age == 1) { // new item --> append cartItem structure
+        //title adjustment for length
+        if (crtItmTitle.length > 27) {
+          crtItmTitle = crtItmTitle.substr(0,24) + '...';     
+        }
+
+        $(".cartList").append(
+          "<div class='cartItem' id="+cIndex+">"+
+          "<span class='cRemove fa fa-trash-o' id=remove"+cIndex+" data-index="+cIndex+"></span>"+
+          "<span class='cQty cDiv' id='cQty"+cIndex+"'>"+crtItmQty+"</span><span class='fa fa-times cTimes'></span>"+
+          "<div class='cTitle cDiv'>"+crtItmTitle+"</div>"+
+          "<div class='cPrice cDiv'id='cPrice"+cIndex+"'>"+crtItmPrice+"</div>"+
+          "</div>");  
+      }
+      else if(age == 2) { //existing item --> update cPrice and cQty
+        tempQty = '#cQty'+cIndex;
+        tempPrice = '#cPrice'+cIndex;
+        $(tempQty).html(crtItmQty);
+        $(tempPrice).html(crtItmPrice);
+      }   
+  } //end cartDisplay function()
+
+  function cartTotals() {
+    subTotal = 0;
+    shipping = shipCost;
+    total = 0;
+    // calculate subTotal Cost
+    for(j=0; j<=cartLen; j++) {
+      if(currentCart[j]) {
+        subTotal += currentCart[j].subPrice;
+      }
+    }
+    //calculate shipping cost
+    console.log("subtotal:"+subTotal);
+    if(subTotal >= freeShip) {
+      
+      shipping = 0;
+    }
+    //Calculate Total Cost of Box
+    total = subTotal + shipping;
+    //format values for currency
+    subTotal = priceFormat(subTotal);
+    shipping = priceFormat(shipping);
+    total = priceFormat(total);
+    //add to mini cart sub cart section
+    $("#cartSub").html(subTotal);
+    $("#cartShip").html(shipping);
+    $("#cartTot").html(total);
+    //add to cart modal section
+    $("#cartMSub").html(subTotal);
+    $("#cartMShip").html(shipping);
+    $("#cartMTot").html(total);
+  } //end cartTotals function()
+
+  function sessionRead() {
+    //sessionRead is for loading values from sessionStorage
+    //sR() will work by storing the item ids into individual keys
+    //or store the ids, then break them apart?
+    //consider this instead
+    //since items are added to cart,
+    //loop through cart checking items against session variants
+    //if same items, populate with item ids
+      //store two values, string with item ids
+      //the other with item variants
+  }  
+  $(document).on("click", ".cRemove", function() {
+    index = $(this).data("index");
+    item = "#"+currentCart[index].id;
+    //set picked of item to zero
+    $(item).attr("picked","");
+    //delete value from array
+    //currentCart.splice(index,1);
+    currentCart[index]="";
+    //remove item from cartList
+    $(this).parent().remove();
+    //update cart values
+    cartTotals();
+  }); // cRemove click()
+
+  $('.item').click(function(event) {    
+    event.preventDefault();
+
+    //variables to collect for item object
+    iTitle = $(this).data("title");
+    iVariant = $(this).data("var");
+    iPrice = $(this).data("price");
+    iPic = $(this).data("pic");
+    iId = $(this).attr("id");
+    iPick = $(this).attr("picked");
+
+    if(iPick == "") { //item not in cart so add to cart        
+        currentCart.push({
+              title:iTitle,
+              variant:iVariant,
+              price:iPrice,
+              subPrice:iPrice,
+              id:iId,
+              picture:iPic,
+              qty:1
+            })
+        //push object to currentCart
+        //loop through currentCart matching value to object.iId
+        //store position of object
+
+        for(i=0;i<=cartLen;i++) {
+          if(currentCart[i].id == iId) {
+            // loop through cart and find position of item
+            // use index to update cart and set picked to 1
+            $(this).attr("picked",i);
+            cartDisplay(i, 1);
+            break
+          } //end if
+        } //end for loop
+              } //end if
+    else { //item already in cart, adjust necessary values
+      // add item again to cart
+      // add 1 to object.qty
+      //adjust object.subPrice
+      currentCart[iPick].qty += 1;
+      currentCart[iPick].subPrice = priceAdjust(currentCart[iPick].qty, iPrice);
+      cartDisplay(iPick, 2);
+    }
+
+    cartLen = currentCart.length;
+  }); //end item click()
+    
+  $('.category').click(function() {
+
+    clicked_step = "#step_"+$(this).data("id");
+    clicked_stepH = "#stepH"+$(this).data("id");
+    stepHtml = $(this).html();
+    var name = $(this).data("name");
+    $("#step_name").html("Selecting: "+name);
+
+
+    if($(document).width() <= 900) {
+     $(".categoryList").css("height","50px");
+     $(".categoryList").css("overflow-y","hidden");
+    }
+
+
+
+    if(clicked_step !== last_step) {  //clicked on a new step, hide old step
+       $(last_step).toggleClass("present");
+       temp = clicked_step;
+       last_step = temp;
+       $(last_step).toggleClass("present");
+     }
+
+    if(clicked_stepH !== last_step_header) {  //clicked on a new step, hide old step
+       $(last_step_header).toggleClass("current_step");
+       tempH = clicked_stepH;
+       last_step_header = tempH;
+       $(last_step_header).toggleClass("current_step");
+     }
+  }) //end category click()
+   
+  $("#submit-modal").click(function(e) {
+    e.preventDefault();
+    //loop through cart object for still existing items?
+    cartHtml = $(".cartList").html();
+    $("#cartModalBody").html("");
+    
+    for(i=0; i < cartLen; i++){
+      if(currentCart[i] !== "") {
+        tempPrice = priceFormat(currentCart[i].subPrice);
+        $("#cartModalBody").append(
+        "<div class='cMItem'>"+
+        "<img class='cDiv cThumb' src='"+currentCart[i].picture+"' />"+
+        "<span class='cDiv'>"+currentCart[i].qty+"</span><span class='fa fa-times cTimes'></span>"+
+        "<div class='cDiv'>"+currentCart[i].title+"</div>"+
+        "<div class='cDiv cPrice'>"+
+        tempPrice+"</div>"+
+        "</div>"); 
+      }
+    }
+    
+    $('#cartModal').modal('show');
+  });
+  //inject items into #cartModal
+  //adjust cart-items to avoid float-left issue
+  $('#cartModal').on('show', function () {
+       $(this).find('.modal-body').css({
+              width:'auto', //probably not needed
+              height:'auto', //probably not needed 
+              'max-height':'100%'
+       });
+  });
+
+  $("#checkout").click(function(e) {
+    //this adds the box selected to the cart
+    e.preventDefault();
+
+    function moveAlong(){
+      if (toAdd.length) {
+        var request = toAdd.shift();
+        var tempId= request.variant_id;
+        var tempQty = request.quantity_id;
+        var params = {
+          type: 'POST',
+          url: '/cart/add.js',
+          data: 'quantity='+tempQty+'&id='+tempId,
+          dataType: 'json',
+          success: function(line_item) { 
+            console.log("success!");
+            moveAlong();
+
+          },
+          error: function() {
+            console.log("fail");
+            moveAlong();
+
+          }
+        };
+        $.ajax(params);
+      }
+      else {        
+        document.location.href = '/checkout';
+      }  
+    }; // end moveAlong()
+    for(i=0; i < cartLen; i++){
+      if(currentCart[i] !== "") {
+        toAdd.push({
+        variant_id: currentCart[i].variant,    
+        quantity_id: currentCart[i].qty
+        });
+      }
+    } 
+    //if statement for what allows an individual to load to cart
+    // focus on subTotal being greater then $15
+    moveAlong();
+  }); //end submit-table
+    
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

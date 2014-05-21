@@ -1,0 +1,292 @@
+<style>
+
+ /*
+  Let's build this one the right way with an appendix to guide the user
+  Builder V3 will consist of three main areas:
+  
+  1. navigation section
+  ...1.5 cartList items
+  
+  2. itemList section
+  
+  3. CartModal section
+  
+  
+  */
+  #myModal {
+    margin-top: 150px !important;
+  }
+  #builderWrapper {
+    font-size:1.8rem;
+    font-weight:300;
+  }
+  
+  /******** 1. Navigation Items ********/ 
+  
+.builderLeftBar {
+ 	display:inline-block;
+ 	margin:10px 0 0 0;
+    width:30%;
+ 	float:left;  
+}
+ 
+.categoryList {
+ 	float:left;
+    width:298px;
+ 	background-color:white;
+    height:50px;
+    position: absolute;
+ 	overflow-y:hidden;
+  -webkit-transition: height 500ms ease-in-out;
+-moz-transition: height 500ms ease-in-out;
+-ms-transition: height 500ms ease-in-out;
+-o-transition: height 500ms ease-in-out;
+transition: height 500ms ease-in-out;
+}
+.categoryList:hover {
+    height:280px;
+}  
+.step_top {
+   display:block;
+position: relative;
+vertical-align:top;
+cursor: pointer;
+  text-align:left;
+line-height: 35px;
+margin: 9px 10px 5px 15px;
+padding-left: 5px;
+border-bottom:1px solid black;
+-webkit-box-shadow: 0 0 10px 4px #1F5B8F;
+box-shadow: 0 0 10px 4px #1F5B8F;
+}
+.category {
+ 	  display:block;
+  	position: relative;
+  	vertical-align:top;
+  	cursor: pointer;
+    color:#555;
+    width:272px;
+    height:40px;
+    text-align:left;
+  	line-height: 26px;
+    padding:7px 0 7px 10px;
+  	margin: 0 10px 0 15px;
+  	border-bottom:1px solid black;
+  	-webkit-transition: background 500ms ease-in;
+  	-moz-transition: background 500ms ease-in;
+  	-ms-transition: background 500ms ease-in;
+  	-o-transition: background 500ms ease-in;
+  	transition: background 500ms ease-in;
+}
+
+.current_step {
+opacity:1 !important;
+background-color:#555;
+color:#fff!important;
+}
+
+.category:hover {
+    background-color:#555;
+    color:#fff;
+}
+
+.categoryName {
+ 	display:inline;
+  	vertical-align: top;
+  	margin-top: 8px;
+}
+.categoryInfo {
+    float:right; 
+}
+
+  /******** 1.5 Cart list area ********/ 
+.cartSection {
+  margin-top: 50px;
+}
+
+.cartHolder {
+  height: 250px;
+  width: 298px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  border-bottom: 2px grey groove;
+  -webkit-box-shadow: 0 5px 5px -2px #6E6E6E;
+  box-shadow: 0 5px 5px -2px #6E6E6E;
+}
+.cartList {
+    height:100%;
+    width:315px;
+    padding:5px 15px 0 0;
+    border-top:2px groove rgb(238,238,239);
+    overflow-y:auto;
+}
+
+.cDiv {
+    display:inline-block;
+    padding-left:5px;    
+}
+
+.cartItem {
+    font-size:1.5rem;
+    border-bottom: 1px solid rgb(238,238,238);  
+}
+.cartItem, .cartItem div, .cartItem span {
+  height: 45px;
+  line-height: 45px;
+  float: left;
+}
+.cRemove, .cQty, .cTimes {
+  text-align: center;
+}
+.cRemove {
+  width: 20px;
+  cursor: pointer;  
+}
+.cQty {
+  width: 20px;
+}
+.cTimes {
+  width: 15px;
+}
+.cTitle {
+    width: 180px;
+    font-size:1.3rem;
+}	
+.cPrice {
+    float:right;
+    width: 45px;
+}
+.cartLabel {
+  width: 240px;
+  text-align: right;
+  padding-right: 10px;
+}
+.submit-bttn {
+  text-align: center;
+}
+  
+  
+  /******** 2. Item collections area ********/ 
+  /* each item is designed with the following layout:
+  * image area: 170px;
+  * product info: 75px;
+  *     -product title:35px;
+  *     -product price:25px;
+  *     -product more info:15px;
+  *
+  */
+.itemsWrapper {
+    position:relative;
+    display:inline-block;
+    width:70%;
+}
+.itemsBody {
+  display:inline-block;
+  margin:0;
+  padding:10px 0;
+  vertical-align: top;
+  height:700px;
+}
+  
+.item {
+    height: 256px;  
+	position:relative;
+	display:inline;
+  cursor: pointer;
+	background-color: white;
+	float: left;
+    width:30%;
+	margin: 8px;
+	font-size: 12px;
+	border: 1px solid rgb(238,238,239);   
+} 
+.present {
+ display:block !important; 
+}
+.itemImage {
+    height:170px;
+    padding-top:5px;
+}
+.itemImage > img {
+    max-height:90%; 
+}
+.itemInfo {
+    height:86px;
+    text-align:left;
+    background-color:rgb(238,238,239);
+    padding:3px 5px;
+}
+.itemTitle {
+    height:60px;
+    font-size:1.4rem;
+    font-weight:300;    
+} 
+.itemPrice {
+    height:20px;
+    display:inline-block;
+    width:50%;
+    font-size:1.8rem;
+    font-weight:400;
+    float:left;
+}
+.itemMoreInfo {
+    height:20px;
+    text-align:center;
+    display:inline-block;
+    width:50%;
+    font-size:1.7rem;
+}
+
+.step_details {
+ height:100%;
+ display:none;
+    text-align:center;
+}
+.itemCover {
+ height:100%;
+ width:100%;
+ position:relative;
+  display:block;    
+}
+
+.item-tip:hover {
+  text-decoration:none; 
+}
+ 
+.itemCollection {
+  overflow-y:scroll;
+  height:100%;
+  border: groove #fff;
+  border-top:0;
+  border-bottom:0;
+  border-right:0;
+  padding:10px 5px 0 10px;    
+}
+
+/* 3. cartModal section */
+#cartModalBody {
+  padding: 10px 0;
+}
+.cMItem {
+  height: 45px;
+  line-height: 45px;
+  font-size:1.5rem;
+  border-bottom: 1px solid rgb(238,238,238);
+  margin: 5px 0;
+  vertical-align: middle;  
+}
+.cThumb {
+  height: 45px;
+}
+.cartMLabel {
+  width: 100px;
+}
+.cartMRow {
+  font-size:1.8rem;
+}
+#cartModal {
+  margin-top: 150px !important;
+}
+
+ 
+</style>

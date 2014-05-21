@@ -1,0 +1,680 @@
+
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"><![endif]-->
+<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+ 
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+  <title>
+    {% if template == 'index' %}{% if page_title contains 'Welcome' %}{{ shop.name }} &ndash; Welcome{% else %}{{ page_title }}{% endif %}{% elsif template == '404' %}Page Not Found{% elsif page_title contains shop.name %}{{ page_title }}{% else %}{{ page_title }} &ndash; {{ shop.name }}{% endif %}
+  </title>
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description }}" />
+  {% endif %}
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="canonical" href="{{ canonical_url }}" /> 
+
+  {% include 'fb-open-graph-tags' %}
+
+  {{ 'styles.css' | asset_url | stylesheet_tag }}
+  {{ 'reveal.css' | asset_url | stylesheet_tag }}
+  
+  {% if settings.google_header_font != "none" %}
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family={{ settings.google_header_font }}:300,400,700">
+  {% endif %}
+  {% if settings.google_nav_font != "none" %}
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family={{ settings.google_nav_font }}:300,400,700">
+  {% endif %}
+  {{ 'html5shiv.js' | asset_url | script_tag }}
+
+  {{ content_for_header }}
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	
+
+  
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+
+  {% if template contains 'customers' %}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
+  {{ 'jquery.smooth-scroll.min.js'  | shopify_asset_url | script_tag }}
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    
+  {% if template == 'index' %}
+  
+  <!-- Facebook Conversion Code for Main Page Lead -->
+<script type="text/javascript">
+  
+var fb_param = {};
+fb_param.pixel_id = '6011021163164';
+fb_param.value = '0.00';
+fb_param.currency = 'USD';
+(function(){
+  var fpw = document.createElement('script');
+  fpw.async = true;
+  fpw.src = '//connect.facebook.net/en_US/fp.js';
+  var ref = document.getElementsByTagName('script')[0];
+  ref.parentNode.insertBefore(fpw, ref);
+})();
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6011021163164&amp;value=0&amp;currency=USD" /></noscript>
+  {% endif %}
+  
+  
+  <!--google fonts-->
+  <link href='https://fonts.googleapis.com/css?family=Permanent+Marker|Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Molle:400italic' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
+  <!-- kiss metrics -->
+  <script type="text/javascript">var _kmq = _kmq || [];
+var _kmk = _kmk || '29fdfc454cefbc7aee370dbcd09a7e1463426376';
+function _kms(u){
+  setTimeout(function(){
+    var d = document, f = d.getElementsByTagName('script')[0],
+    s = d.createElement('script');
+    s.type = 'text/javascript'; s.async = true; s.src = u;
+    f.parentNode.insertBefore(s, f);
+  }, 1);
+}
+_kms('//i.kissmetrics.com/i.js');
+_kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+</script>
+
+  
+</head>
+
+{% if template == 'index' %}
+<script>
+  $(document).ready(function() {  //or  $(window).load(function(){ 
+    $('#myModal').modal({
+  show: true
+})
+});
+</script>
+<body>
+
+  
+  
+  
+  
+  {% else %}
+  <body style="background: url('{{ 'oldpaper.jpg' | asset_url }}') no-repeat; background-size:cover;">
+    {% endif %}
+  
+    <!--
+    <div id="myModal" class="reveal-modal medium" data-reveal-id="myModal" data-animation="fade">
+     <h1>Traveling Soon?</h1>
+       <img class="build_image" src="{{ 'The_Cavebag.jpg' | asset_url }}" alt="caveman"/>
+             
+        
+      <p style="border-top:1px grey groove; padding-top:10px;">The Travel Bag
+        is for the man on the go! You worry about your destination, we'll keep you stocked up with your travel hygiene essentials. 
+        <a id="close-reveal" href="#">Not right now</a></p>
+      <a href="https://thecavebox.myshopify.com/products/The-Travel-Bag" class="btn-small">Let's do it</a>
+        
+      
+     <a class="close-reveal-modal">&#215;</a> 
+	</div>
+    -->
+
+    
+    
+    <div class="social_tab soc_show" style="">
+      
+
+    
+    <!-- instagram -->
+
+<a href="https://instagram.com/Thecavebox"><img src="{{ 'button_instagram.jpg' | asset_url }}"  class="social_badge" /></a>
+  	
+    <!-- facebook
+    <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="48" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
+     -->
+	<a href="https://facebook.com/Thecavebox"><img src="{{ 'button_facebook.jpg' | asset_url }}"  class="social_badge" /></a>
+    
+    <!-- twitter -->
+    <a href="https://twitter.com/Thecavebox"><img src="{{ 'button_twitter.jpg' | asset_url }}"  class="social_badge" /></a>
+    
+    <!-- youtube -->
+    <a href="https://www.youtube.com/channel/UCUMXddOWe9OTxH9_HLL9CPw"><img src="{{ 'button_youtube.jpg' | asset_url }}"  class="social_badge" /></a>
+
+      
+</div> <!-- end social tab -->
+  
+ 
+  		
+  <!-- Begin toolbar -->
+  <div class="toolbar-wrapper">
+    <div class="toolbar clearfix">
+      
+      <div class="span12 clearfix">
+        
+        
+        <ul class="unstyled">
+          {% if template != 'index' %}
+          <li class="fl" style="height:60px">
+            <a href="/" class="bNavItem"><img src="{{ 'Cavebox_logo_White.png' | asset_url }}" alt="{{ shop.name }}" height="55px"/></a>  
+          </li>
+          {% else %}
+          {% include 'customer_links' %}
+          {% endif %}
+          {% if customer %}
+          <li class="search-field">
+            {{ 'Log out' | customer_logout_link }}
+          </li>
+          {% endif %}
+          {% if cart.item_count != 0 %}
+          <li id="checkout-link"><a href="/cart" title="Checkout">Checkout</a></li>
+          {% endif %}
+          <li class="search-field"><span class="icon-cart"></span><a href="/cart" class="cart" title="Shopping Cart">Cart: {{ cart.item_count }}</a></li>
+          
+          {% if settings.top_bar_linklist != blank %}
+          {% for link in linklists[settings.top_bar_linklist].links %}
+          <li class="search-field"><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+          {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- End toolbar -->
+  	
+  
+  
+  
+  
+  {% if template == 'index' %}
+  
+  <script>
+    
+    function ImageController($scope, $window) {
+    	var w = angular.element($window);
+    	$scope.getHeight = function() {
+          var fifth = w.height()/5;
+          var h = w.height();
+               
+      return h;
+    };
+    
+     
+    $scope.$watch($scope.getHeight, function(newValue, oldValue) {
+        $scope.windowHeight = newValue;
+        $scope.style = function() {
+            return {
+                height: newValue + 'px'
+            };
+        };
+    });
+
+    w.bind('resize', function () {
+        $scope.$apply();
+    });
+	}
+
+	</script>
+
+  
+<div id="image-bg" onload="imgsize()" ng-app ng-controller="ImageController" ng-style="style()">
+	
+ 	 
+  
+  <div class="banner_nav">
+  <a href="/" id="
+" class="bNavItem"><img src="{{ 'Cavebox_logo_White.png' | asset_url }}" alt="{{ shop.name }}" /></a>
+   <div class="bNavItem">
+     <ul id="indexNav" class="">
+       <li>
+         <a href="#what" id="what-li">What is it</a>
+       </li>
+       <li>
+         <a href="#build" id="build-li">Our Boxes</a>
+       </li>
+       <li>
+         <a href="#join" id="join-li">Join the Tribe</a>
+     	</li>
+
+     </ul>
+     
+    </div>
+  </div><!-- end .banner_nav -->
+    <div class="test_slogan">
+  		{% if customer %}
+      <h3>Staying on top of your box, <br> good moves {{customer.name}}</h3>
+  <a href="/account"><button class="bttn">Check out your box</button></a> 
+  		{% else %} 
+      <span style="font-size:1.4em;">You Build it. We ship it. It's Yours.</span>
+      <br/>
+      <br/>
+      <a href="http://thecavebox.myshopify.com/pages/product-builder"><button class="btn-small">Build your box</button></a>                      
+      	{% endif %}
+  </div>  <!--end test slogan-->
+  	<div id="scr_down">
+      <a href="#" id="more-info">
+      <span>More Info</span><br>
+    	<img src="{{ 'down_arrow_white.png' | asset_url }}" alt="{{ shop.name }}" />
+      </a>
+      </div><!-- end #src_down -->
+</div> <!--end image-bg class-->
+    
+    <span class="tc"><h1>Proud to be featured by Inc Magazine</h1></span>
+    <div style="margin:0 auto; width:60%;">
+  <img src="{{ 'INC_Banner.png' | asset_url }}" alt="{{ shop.name }}" /> 
+    </div>
+
+
+ <div class="layer" id="what"> 
+  	<div class="container">
+    	<div class="box">
+  			<div class="box-inner">
+         		<div class="tc">
+          	    <h1 class="secHeader">We Make Men's Lives Simpler</h1>
+      			<p style="width:80%; margin:0 auto;">
+                   <br/>
+                  
+                  You worry about
+                  being successful, not running out of toothpaste. We only carry guy-approved brands that get the job done and we
+                  will make sure your supply box ships right to your door when you want it. No more walking down those bright fluorescent
+                  isles hygiene hunting at the store. We got ya' covered.
+                  
+                  <!--
+                 Cavebox works to promote your success by making it easy for you to look and feel great.
+                  -->
+                  <a href="http://thecavebox.myshopify.com/pages/faqs">
+                    Learn more. </a>   
+      			</p> 
+          		</div><!-- end span12 -->
+              
+                <img class="secImage shape" src="{{ 'products_white_bg.jpg' | asset_url }}" alt="" />
+                
+              
+   			</div><!-- end box-inner -->
+  		</div> <!-- end box -->
+      
+ 	 </div> <!-- end container -->      	
+  </div> <!-- end layer -->
+ 
+    
+    
+ <!-- builder images --
+
+ -- end builder images -->                                 		  
+    
+      
+  <div class="layer" id="build"> 
+  	<div class="container">
+      
+      
+      <div class="box">
+  			<div class="box-inner">
+         		<div class="tc">
+          	    <h1 class="secHeader">Curated and Custom Boxes </h1>
+              
+              	
+                  <br/>
+              		<div class="build_half tc">
+                 			<div class="tc vCenter">
+                              <h1>Make Life Easier.</h1>
+                              With focus on providing great value at every level, we have designed
+                              three boxes that are tiered towards all lifestyles.  
+                              From the essentials to the highly tailored, there's a box for you,  
+                              <a href="http://thecavebox.myshopify.com/pages/product-builder"> or customize your own.</a>
+                              <br />
+                              <br/>
+                        	<a href="http://www.thecavebox.myshopify.com/pages/Three-tier-order-form"><button class="btn-small">Check them out</button></a> 
+                            
+                 			</div><!-- end class tc -->
+              		</div><!-- end build half -->
+          			<div class="build_half tc">
+                      <div class="tc three_img" style="max-width:100%";>
+                            <img src="{{ 'The_Caveman.jpg' | asset_url }}" width:"33%" />     
+							</div><!-- end class tc -->
+              		</div><!-- end build half -->
+           
+   			</div><!-- end box-inner -->
+  		</div> <!-- end box -->
+  	</div> <!-- end container -->
+  </div> <!-- end layer -->  
+
+  <div class="layer"> 
+  	<div class="container">
+	      <div class="box">
+  			<div class="box-inner">
+         		<div class="tc">
+          	    <h1 class="secHeader">Travel Bags for any Trip</h1>
+                  <br/>
+          			<div class="build_half tc">
+                      <div class="tc three_img" style="max-width:100%";>
+                            <img class="build_image" src="{{ 'The_Cavebag.jpg' | asset_url }}"/>     
+							
+                 	  </div><!-- end class tc -->
+              		</div><!-- end build half -->
+                  	<div class="build_half tc">
+                 			<div class="tc vCenter">
+                              <h1>Traveling soon?</h1>
+                              Our travel bag option makes going anywhere a piece of cake.
+                              Each bag is tailored with products easy to transport and 
+                              airport ready.  You worry about your destination, 
+                              we'll keep you stocked up with your travel hygiene essentials.
+                            <br />
+                              <br/>
+                            
+                        	<a href="https://thecavebox.myshopify.com/products/The-Travel-Bag"><button class="btn-small">Let's do it</button></a> 
+                            <br/>
+                 			</div><!-- end class tc -->
+              		</div><!-- end build half -->
+           
+   			</div><!-- end box-inner -->
+  		</div> <!-- end box -->
+  	</div> <!-- end container -->
+  </div> <!-- end layer -->      
+    
+    
+    
+  <div class="layer" id="join"> 
+  	<div class="container">
+    	<div class="box">
+  			<div class="box-inner">
+  
+          		<div class="tc">
+           	 	<h1 class="secHeader">Join the Tribe</h1>  
+          		</div>
+              	
+              
+              <div class="build_half">
+                <p>Connect with us on social media and follow the cavebox revolution.  Join the tribe by creating an account and stay up to date with promotions and what we're doing in the community.<br/>
+                  <a href="http://thecavebox.myshopify.com/account/register"> 
+                    Create an account.</a></p>
+                  <div class="box video_box tc">
+                    <iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fthecavebox&amp;width=490&amp;colorscheme=light&amp;show_faces=true&amp;border_color&amp;stream=true&amp;header=true&amp;height=435" scrolling="yes" frameborder="0" style="border:none; overflow:hidden; width:100%; height:430px; background: white; float:left; " allowTransparency="true"></iframe>
+                  
+					<!-- facebook -->
+
+                </div>  
+              </div>
+          		<div class="build_half tc">
+                                     
+                  <a class="twitter-timeline" href="https://twitter.com/Thecavebox" data-widget-id="419002529511264256">Tweets by @Thecavebox</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                  <br/>
+                    <br/>
+                  Follow us on Instagram @Thecavebox
+                  <br/>
+                  <br/>
+                  <!-- SnapWidget --> 
+					<iframe src="https://snapwidget.com/sc/?u=dGhlY2F2ZWJveHxpbnwxNTB8M3wzfHxub3w1fG5vbmV8b25TdGFydHx5ZXM=&v=20214" title="Instagram Widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:450px; height:150px"></iframe>
+                	
+              </div><!-- end fr -->
+              <br/>
+              <br/>
+              <div class="tc" id="soc_badges">
+                
+                <a href="https://instagram.com/Thecavebox"><img src="{{ 'button_instagram.jpg' | asset_url }}"  class="social_badge" /></a>
+  	
+    <!-- facebook
+    <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="48" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
+     -->
+	<a href="https://facebook.com/Thecavebox"><img src="{{ 'button_facebook.jpg' | asset_url }}"  class="social_badge" /></a>
+    
+    <!-- twitter -->
+    <a href="https://twitter.com/Thecavebox"><img src="{{ 'button_twitter.jpg' | asset_url }}"  class="social_badge" /></a>
+    
+    <!-- youtube -->
+    <a href="https://www.youtube.com/channel/UCUMXddOWe9OTxH9_HLL9CPw"><img src="{{ 'button_youtube.jpg' | asset_url }}"  class="social_badge" /></a>
+
+                </div>
+   			</div><!-- end box-inner -->
+  		</div> <!-- end box -->
+  	</div> <!-- end container -->
+  </div>  <!-- end layer -->
+  
+  
+  {% else %}
+  
+  
+  
+   
+    <div id="transparency" class="wrapper">
+    
+      
+
+      <!-- End right navigation -->
+      
+      <!-- Begin below navigation -->
+      {% if settings.navigation_alignment == "below" %}
+      <div class="row" style="margin:0!important;">   
+        <section id="nav" class="row" style="margin:60px 0 0 0!important;">
+          <nav class="main">
+            {% include 'dropdown' %}
+          </nav> <!-- /.main -->
+          <nav class="mobile clearfix">
+            {% include 'mobile-menu' %}
+          </nav> <!-- /.mobile --> 
+      	</section> 
+      </div> 
+      
+      
+      {% endif %}
+      <!-- End below navigation -->
+    
+ 	
+		
+      
+      
+      
+      
+    </div><!--end wrapper class -->
+
+
+  		
+
+  {% endif %}
+  
+  
+  <!-- Begin wrapper -->
+  <div id="transparency" class="wrapper">
+    <div class="row">      
+      <!-- Begin right navigation -->
+   
+      
+      <!-- Begin content-->
+      <section id="content" class="clearfix">
+          {% if template == "list-collections" %}
+          <div id="collection" class="row">
+            <div class="span12">
+              <h1><span>Product Collections</span></h1>
+            </div> <!-- /.span12 -->
+          </div> <!-- /.row -->
+          
+          <div class="row products masonry">
+            {% for collection in collections %}
+            {% include 'collection-loop' %}
+            {% endfor %}
+          </div> <!-- /#collection.row -->
+          {% else %}
+          {{ content_for_layout }}
+          {% endif %}
+      </section>
+      <!-- End content-->
+      
+    </div>
+  </div>
+  <!-- End wrapper -->
+  
+  <!-- Begin footer -->
+  <div class="footer-wrapper">
+    <footer>
+      <div class="row">
+        <!-- Begin latest blog post 
+        {% if settings.footer_blog_post and blogs[settings.footer_blog_post].handle == settings.footer_blog_post and blogs[settings.footer_blog_post].articles.size > 0 %}
+        {% assign article = blogs[settings.footer_blog_post].articles.first %}
+        <div class="span4">
+          <div class="p30">
+            <h4><a href="/blogs/{{ settings.footer_blog_post }}">{{ settings.footer_blog_post_header }}</a></h4>
+            <p>template: {{ template }}</p>
+            <p class="p10"><strong>{{ article.title | link_to: article.url }}</strong></p>
+            <p>{{ article.content | strip_html | truncatewords: 30 }}</p>
+          </div>
+        </div>
+        {% endif %}
+        -- End latest blog post -->
+        
+        <!-- Begin footer navigation -->
+        <div class="span12 full-border">
+          <!--    <h4>{{ settings.footer_linklist_title }}</h4>    -->
+          <ul class="horizontal-inline">
+            {% for link in linklists[settings.footer_linklist].links %}
+              <li><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+            {% endfor %}
+            <br/> <br/> <a href="http://www.shopify.com/?utm_source=secure&amp;utm_medium=shop" title="This online store is secured by Shopify" target="_blank"><img src="//cdn.shopify.com/s/images/badges/shopify-secure-badge-light-shadow.png" alt="Shopify secure badge" /></a>
+          </ul>
+        </div>
+        
+	<!-- This code must be installed within the body tags -->
+	<script type="text/javascript">
+    var lhnAccountN = "21285-1";
+    var lhnButtonN = 17;
+    var lhnChatPosition = 'default';
+    var lhnInviteEnabled = 1;
+    var lhnWindowN = 0;
+    var lhnDepartmentN = 0;
+	</script>
+	<a href="http://www.livehelpnow.net/products/live-chat-system" target="_blank" style="font-size:10px;" id="lhnHelp">Live Chat Support Software</a>
+	<script src="//www.livehelpnow.net/lhn/widgets/chatbutton/lhnchatbutton-current.min.js" type="text/javascript" id="lhnscript"></script>
+        <!-- End footer navigation -->
+        
+        <!-- Begin newsletter/social -->
+        <div class="span4">
+          
+          {% if settings.footer_display_newsletter %}
+          <div class="p30">
+            <h4>{{ settings.footer_newsletter_title }}</h4>
+            <form action="{{ settings.mailing_list_form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+              <input type="email" value="" placeholder="Email Address" name="EMAIL" id="mail" /> <br/><br/>  <input type="submit" class="btn newsletter" value="Subscribe" name="subscribe" id="subscribe" />
+            </form>
+          </div>
+          {% endif %}
+          
+          <div class="clearfix">
+          {% if settings.enable_social_links %}
+            <h4>{{ settings.footer_social_title }}</h4>
+            {% if settings.twitter_link != '' %}<a href="{{ settings.twitter_link }}" title="{{ shop.name }} on Twitter" class="icon-social twitter">Twitter</a>{% endif %}
+            {% if settings.facebook_link != '' %}<a href="{{ settings.facebook_link }}" title="{{ shop.name }} on Facebook" class="icon-social facebook">Facebook</a>{% endif %}
+            {% if settings.youtube_link != '' %}<a href="{{ settings.youtube_link }}" title="{{ shop.name }} on YouTube" class="icon-social youtube">YouTube</a>{% endif %}
+            {% if settings.atom_link != '' %}<a href="{{ settings.atom_link }}" title="{{ shop.name }} news" class="icon-social atom">Blog feed</a>{% endif %}
+            {% if settings.instagram_link != '' %}<a href="{{ settings.instagram_link }}" title="{{ shop.name }} on Instagram" class="icon-social instagram">Instagram</a>{% endif %}
+         
+          {% endif %}
+          </div>
+          
+        </div>
+        <!-- End newsletter/social -->
+        
+        <!-- Begin copyright -->
+        
+        
+        <div class="span12 full-border tc">
+          <p>Copyright &copy; {{ 'now' | date: "%Y" }} Cavebox LLC</p>
+          {% if template == 'index' %}
+          
+          {% else %}
+          <ul class="credit-cards clearfix">
+            {% if settings.accept_visa %}<li><img src="{{ 'icon-cc-visa.gif' | asset_url }}" alt="Visa" /></li>{% endif %}
+            {% if settings.accept_mastercard %}<li><img src="{{ 'icon-cc-mastercard.gif' | asset_url }}" alt="MasterCard" /></li>{% endif %}
+            {% if settings.accept_amex %}<li><img src="{{ 'icon-cc-amex.gif' | asset_url }}" alt="Amex" /></li>{% endif %}
+            {% if settings.accept_cirrus %}<li><img src="{{ 'icon-cc-cirrus.gif' | asset_url }}" alt="Cirrus" /></li>{% endif %}
+            {% if settings.accept_delta %}<li><img src="{{ 'icon-cc-delta.gif' | asset_url }}" alt="Delta" /></li>{% endif %}
+            {% if settings.accept_discover %}<li><img src="{{ 'icon-cc-discover.gif' | asset_url }}" alt="Discover" /></li>{% endif %}
+            {% if settings.accept_westernunion %}<li><img src="{{ 'icon-cc-westernunion.gif' | asset_url }}" alt="Western Union" /></li>{% endif %}
+            {% if settings.accept_paypal %}<li><img src="{{ 'icon-cc-paypal.gif' | asset_url }}" alt="PayPal" /></li>{% endif %}
+            {% if settings.accept_bitcoin %}<li><img src="{{ 'icon-cc-bitcoin.gif' | asset_url }}" alt="Bitcoin" /></li>{% endif %}
+          </ul> <!-- /.credit-cards -->
+          {% endif %}
+        </div>
+        <!-- End copyright -->
+
+      </div>
+    </footer>
+  </div>
+  <!-- End footer -->
+    
+  {% if settings.display_slideshow %}
+    {{ 'jquery.flexslider-min.js' | asset_url | script_tag }}
+  {% endif %}
+  {% if settings.enable_product_image_zoom %}
+    {{ 'jquery.zoom.js' | asset_url | script_tag }}
+  {% endif %}
+  {{ 'jquery.tweet.js' | asset_url | script_tag }}
+  {{ 'jquery.fancybox.js' | asset_url | script_tag }}
+  {{ 'scripts.js' | asset_url | script_tag }}
+  {{ 'jquery.reveal.js' | asset_url | script_tag }}
+  {% if template contains 'product' %}
+  
+  <script>
+  var selectCallback = function(variant, selector) {
+    if (variant && variant.available) {
+      jQuery('#add-to-cart').removeAttr('disabled').removeClass('disabled'); // remove unavailable class from add-to-cart button, and re-enable button
+      if(variant.price < variant.compare_at_price){
+        jQuery('#price-preview').html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}") + " <del>" + Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}") + "</del>");
+      } else {
+        jQuery('#price-preview').html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));
+      }
+    } else {
+      jQuery('#add-to-cart').addClass('disabled').attr('disabled', 'disabled'); // set add-to-cart button to unavailable class and disable button
+      var message = variant ? "Sold Out" : "Unavailable";
+      jQuery('#price-preview').text(message);
+    }
+  };
+  
+  jQuery(document).ready(function($){
+    new Shopify.OptionSelectors("product-select", { product: {{ product | json }}, onVariantSelected: selectCallback });
+
+    // Add label if only one product option and it isn't 'Title'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>');
+    {% endif %}
+  
+    // Auto-select first available variant on page load.
+    {% assign found_one_in_stock = false %}
+    {% for variant in product.variants %}
+      {% if variant.available and found_one_in_stock == false %}
+        {% assign found_one_in_stock = true %}
+        {% for option in product.options %}
+        $('.single-option-selector:eq({{ forloop.index0 }})').val({{ variant.options[forloop.index0] | json }}).trigger('change');
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+
+  });
+  </script>
+  {% endif %}
+    
+  <script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0021/7811.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script>  
+   
+
+  
+</body>
+
+</html>
