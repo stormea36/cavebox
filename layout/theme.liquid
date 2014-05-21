@@ -23,7 +23,8 @@
   <link rel="canonical" href="{{ canonical_url }}" /> 
 
   {% include 'fb-open-graph-tags' %}
-
+  
+  
   {{ 'styles.css' | asset_url | stylesheet_tag }}
   {{ 'reveal.css' | asset_url | stylesheet_tag }}
   
@@ -45,7 +46,10 @@
 
   
   {{ 'option_selection.js' | shopify_asset_url | script_tag }}
-  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  
+
+  {{ 'prototype/1.6/prototype.js' | global_asset_url  | script_tag }}
+  {{ 'api.js' | shopify_asset_url | script_tag }}
 
   {% if template contains 'customers' %}
   {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
@@ -84,20 +88,6 @@ fb_param.currency = 'USD';
   <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
   <!-- kiss metrics -->
-  <script type="text/javascript">var _kmq = _kmq || [];
-var _kmk = _kmk || '29fdfc454cefbc7aee370dbcd09a7e1463426376';
-function _kms(u){
-  setTimeout(function(){
-    var d = document, f = d.getElementsByTagName('script')[0],
-    s = d.createElement('script');
-    s.type = 'text/javascript'; s.async = true; s.src = u;
-    f.parentNode.insertBefore(s, f);
-  }, 1);
-}
-_kms('//i.kissmetrics.com/i.js');
-_kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
-</script>
-
   
 </head>
 

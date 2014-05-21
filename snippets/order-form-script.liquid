@@ -115,7 +115,7 @@ if (typeof jQuery === 'undefined') {
     $("#cartMTot").html(total);
   } //end cartTotals function()
 
-  function sessionRead() {
+  function sessionRead(exchange, ) {
     //sessionRead is for loading values from sessionStorage
     //sR() will work by storing the item ids into individual keys
     //or store the ids, then break them apart?
@@ -129,9 +129,11 @@ if (typeof jQuery === 'undefined') {
   $(document).on("click", ".cRemove", function() {
     index = $(this).data("index");
     item = "#"+currentCart[index].id;
-    //set picked of item to zero
+    iVar = currentCart[index].variant;
+    //set picked item to zero
     $(item).attr("picked","");
-    //delete value from array
+    //remove item from cart
+    Shopify.removeItem(iVar);
     //currentCart.splice(index,1);
     currentCart[index]="";
     //remove item from cartList
@@ -152,6 +154,8 @@ if (typeof jQuery === 'undefined') {
     iPick = $(this).attr("picked");
 
     if(iPick == "") { //item not in cart so add to cart        
+        Shopify.additem(iVariant,1);
+
         currentCart.push({
               title:iTitle,
               variant:iVariant,
@@ -179,6 +183,7 @@ if (typeof jQuery === 'undefined') {
       // add item again to cart
       // add 1 to object.qty
       //adjust object.subPrice
+
       currentCart[iPick].qty += 1;
       currentCart[iPick].subPrice = priceAdjust(currentCart[iPick].qty, iPrice);
       cartDisplay(iPick, 2);
