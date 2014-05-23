@@ -10,6 +10,101 @@ if (typeof jQuery === 'undefined') {
 
 <script>
   console.log("this is the page-testing script") 
+  
+  Shopify.addItem = function(variant_id, quantity, callback) {
+    var quantity = quantity || 1;
+    var params = {
+      type: 'POST',
+      url: '/cart/add.js',
+      data: 'quantity=' + quantity + '&id=' + variant_id,
+      dataType: 'json',
+      success: function(line_item) { 
+        if ((typeof callback) === 'function') {
+          callback(line_item);
+        }
+
+      },
+      error: function(XMLHttpRequest, textStatus) {
+        Shopify.onError(XMLHttpRequest, textStatus);
+      }
+    };
+    jQuery.ajax(params);
+  }; 
+
+  Shopify.getCart = function(callback) {
+    jQuery.getJSON('/cart.js', function (cart, textStatus) {
+      if ((typeof callback) === 'function') {
+        callback(cart);
+      }
+
+    });
+  };
+
+  Shopify.changeItem = function(variant_id, quantity, callback) {
+    var params = {
+      type: 'POST',
+      url: '/cart/change.js',
+      data:  'quantity='+quantity+'&id='+variant_id,
+      dataType: 'json',
+      success: function(cart) { 
+        if ((typeof callback) === 'function') {
+          callback(cart);
+        }
+      },
+      error: function(XMLHttpRequest, textStatus) {
+        Shopify.onError(XMLHttpRequest, textStatus);
+      }
+      };
+      jQuery.ajax(params);
+  };
+
+  // ---------------------------------------------------------
+  // POST to cart/change.js returns the cart in JSON.
+  // ---------------------------------------------------------
+  Shopify.removeItem = function(variant_id, callback) {
+    var params = {
+      type: 'POST',
+      url: '/cart/change.js',
+      data:  'quantity=0&id='+variant_id,
+      dataType: 'json',
+      success: function(cart) { 
+        if ((typeof callback) === 'function') {
+          callback(cart);
+        }
+        
+      },
+      error: function(XMLHttpRequest, textStatus) {
+        Shopify.onError(XMLHttpRequest, textStatus);
+      }
+    };
+    jQuery.ajax(params);
+  };
+
+  // ---------------------------------------------------------
+  // POST to cart/clear.js returns the cart in JSON.
+  // It removes all the items in the cart, but does
+  // not clear the cart attributes nor the cart note.
+  // ---------------------------------------------------------
+  Shopify.clear = function(callback) {
+    var params = {
+      type: 'POST',
+      url: '/cart/clear.js',
+      data:  '',
+      dataType: 'json',
+      success: function(cart) { 
+        if ((typeof callback) === 'function') {
+          callback(cart);
+        }
+        
+      },
+      error: function(XMLHttpRequest, textStatus) {
+        Shopify.onError(XMLHttpRequest, textStatus);
+      }
+    };
+    jQuery.ajax(params);
+  };
+
+
 
   $('.item-tip').popover({ 
     trigger: "hover",
@@ -115,7 +210,7 @@ if (typeof jQuery === 'undefined') {
     $("#cartMTot").html(total);
   } //end cartTotals function()
 
-  function sessionRead(exchange, ) {
+  function sessionRead(exchange) {
     //sessionRead is for loading values from sessionStorage
     //sR() will work by storing the item ids into individual keys
     //or store the ids, then break them apart?
@@ -126,6 +221,7 @@ if (typeof jQuery === 'undefined') {
       //store two values, string with item ids
       //the other with item variants
   }  
+  
   $(document).on("click", ".cRemove", function() {
     index = $(this).data("index");
     item = "#"+currentCart[index].id;
@@ -134,6 +230,7 @@ if (typeof jQuery === 'undefined') {
     $(item).attr("picked","");
     //remove item from cart
     Shopify.removeItem(iVar);
+
     //currentCart.splice(index,1);
     currentCart[index]="";
     //remove item from cartList
@@ -154,7 +251,8 @@ if (typeof jQuery === 'undefined') {
     iPick = $(this).attr("picked");
 
     if(iPick == "") { //item not in cart so add to cart        
-        Shopify.additem(iVariant,1);
+        
+        Shopify.addItem(iVariant,1);
 
         currentCart.push({
               title:iTitle,
@@ -178,7 +276,7 @@ if (typeof jQuery === 'undefined') {
             break
           } //end if
         } //end for loop
-              } //end if
+    } //end if
     else { //item already in cart, adjust necessary values
       // add item again to cart
       // add 1 to object.qty
@@ -187,6 +285,7 @@ if (typeof jQuery === 'undefined') {
       currentCart[iPick].qty += 1;
       currentCart[iPick].subPrice = priceAdjust(currentCart[iPick].qty, iPrice);
       cartDisplay(iPick, 2);
+      Shopify.changeItem(currentCart[iPick].variant,currentCart[iPick].qty);
     }
 
     cartLen = currentCart.length;
@@ -286,19 +385,13 @@ if (typeof jQuery === 'undefined') {
         document.location.href = '/checkout';
       }  
     }; // end moveAlong()
-    for(i=0; i < cartLen; i++){
-      if(currentCart[i] !== "") {
-        toAdd.push({
-        variant_id: currentCart[i].variant,    
-        quantity_id: currentCart[i].qty
-        });
-      }
-    } 
+    
     //if statement for what allows an individual to load to cart
     // focus on subTotal being greater then $15
     moveAlong();
   }); //end submit-table
-    
+  
+
 </script>
 
 

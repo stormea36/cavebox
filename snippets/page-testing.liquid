@@ -3,28 +3,33 @@
 // Including jQuery conditionnally.
 if (typeof jQuery === 'undefined') {
     document.write({{ "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" | script_tag | json }});
-	document.write('<script type="text/javascript">jQuery.noConflict();<\/script>');
+  document.write('<script type="text/javascript">jQuery.noConflict();<\/script>');
 }
 //]]>
 </script>
 
 <script>
-	console.log("this is the page-testing script") 
+  console.log("this is the page-testing script") 
 
-	$('.item-tip').popover({ 
+  $('.item-tip').popover({ 
     trigger: "hover",
     html: true
-	});     
-	//variables for new product builder
+  });
+
+  $('#myModal').modal({
+  show:true
+})
+
+  //variables for new product builder
   minPrice = 1500;
   shipCost = 500;
   freeShip = 3000;
 
-	last_step = '#step_1';
-	last_step_header = '#stepH1';
+  last_step = '#step_1';
+  last_step_header = '#stepH1';
   currentCart = [];
-	cartLen = currentCart.length;
-	toAdd = [];
+  cartLen = currentCart.length;
+  toAdd = [];
 
   function priceFormat(value) {
     val = value/100;
@@ -42,7 +47,7 @@ if (typeof jQuery === 'undefined') {
   // age argument passes whether new item or existing item
   function cartDisplay(index, age) {
       // priceFormat() function formats value into money
-  		// value is passed as hundred value and returned as money
+      // value is passed as hundred value and returned as money
 
       //variables to pull from item   
       cIndex = index;
@@ -58,8 +63,8 @@ if (typeof jQuery === 'undefined') {
       //if not new (age == 2), adjust values based on cart object
       if(age == 1) { // new item --> append cartItem structure
         //title adjustment for length
-        if (crtItmTitle.length > 28) {
-          crtItmTitle = crtItmTitle.substr(0,25) + '...';     
+        if (crtItmTitle.length > 27) {
+          crtItmTitle = crtItmTitle.substr(0,24) + '...';     
         }
 
         $(".cartList").append(
@@ -100,12 +105,27 @@ if (typeof jQuery === 'undefined') {
     subTotal = priceFormat(subTotal);
     shipping = priceFormat(shipping);
     total = priceFormat(total);
-
+    //add to mini cart sub cart section
     $("#cartSub").html(subTotal);
     $("#cartShip").html(shipping);
     $("#cartTot").html(total);
+    //add to cart modal section
+    $("#cartMSub").html(subTotal);
+    $("#cartMShip").html(shipping);
+    $("#cartMTot").html(total);
   } //end cartTotals function()
 
+  function sessionRead(exchange, ) {
+    //sessionRead is for loading values from sessionStorage
+    //sR() will work by storing the item ids into individual keys
+    //or store the ids, then break them apart?
+    //consider this instead
+    //since items are added to cart,
+    //loop through cart checking items against session variants
+    //if same items, populate with item ids
+      //store two values, string with item ids
+      //the other with item variants
+  }  
   $(document).on("click", ".cRemove", function() {
     index = $(this).data("index");
     item = "#"+currentCart[index].id;
@@ -121,12 +141,13 @@ if (typeof jQuery === 'undefined') {
   }); // cRemove click()
 
   $('.item').click(function(event) {    
-  	event.preventDefault();
+    event.preventDefault();
 
     //variables to collect for item object
     iTitle = $(this).data("title");
     iVariant = $(this).data("var");
     iPrice = $(this).data("price");
+    iPic = $(this).data("pic");
     iId = $(this).attr("id");
     iPick = $(this).attr("picked");
 
@@ -137,6 +158,7 @@ if (typeof jQuery === 'undefined') {
               price:iPrice,
               subPrice:iPrice,
               id:iId,
+              picture:iPic,
               qty:1
             })
         //push object to currentCart
@@ -164,7 +186,7 @@ if (typeof jQuery === 'undefined') {
 
     cartLen = currentCart.length;
   }); //end item click()
-		
+    
   $('.category').click(function() {
 
     clicked_step = "#step_"+$(this).data("id");
@@ -181,39 +203,54 @@ if (typeof jQuery === 'undefined') {
 
 
 
-   	if(clicked_step !== last_step) {  //clicked on a new step, hide old step
+    if(clicked_step !== last_step) {  //clicked on a new step, hide old step
        $(last_step).toggleClass("present");
        temp = clicked_step;
        last_step = temp;
        $(last_step).toggleClass("present");
      }
 
-   	if(clicked_stepH !== last_step_header) {  //clicked on a new step, hide old step
+    if(clicked_stepH !== last_step_header) {  //clicked on a new step, hide old step
        $(last_step_header).toggleClass("current_step");
        tempH = clicked_stepH;
        last_step_header = tempH;
        $(last_step_header).toggleClass("current_step");
      }
   }) //end category click()
-  
+   
   $("#submit-modal").click(function(e) {
     e.preventDefault();
     //loop through cart object for still existing items?
     cartHtml = $(".cartList").html();
-    //$("#cartModalBody").append(cartHtml);
-    //$('#cartModal').modal('show');
-
+    $("#cartModalBody").html("");
+    
     for(i=0; i < cartLen; i++){
       if(currentCart[i] !== "") {
-        toAdd.push({
-        variant_id: currentCart[i].variant,    
-        quantity_id: currentCart[i].qty
-        });
+        tempPrice = priceFormat(currentCart[i].subPrice);
+        $("#cartModalBody").append(
+        "<div class='cMItem'>"+
+        "<img class='cDiv cThumb' src='"+currentCart[i].picture+"' />"+
+        "<span class='cDiv'>"+currentCart[i].qty+"</span><span class='fa fa-times cTimes'></span>"+
+        "<div class='cDiv'>"+currentCart[i].title+"</div>"+
+        "<div class='cDiv cPrice'>"+
+        tempPrice+"</div>"+
+        "</div>"); 
       }
     }
-  });
     
-  $("#submit-table").click(function(e) {
+    $('#cartModal').modal('show');
+  });
+  //inject items into #cartModal
+  //adjust cart-items to avoid float-left issue
+  $('#cartModal').on('show', function () {
+       $(this).find('.modal-body').css({
+              width:'auto', //probably not needed
+              height:'auto', //probably not needed 
+              'max-height':'100%'
+       });
+  });
+
+  $("#checkout").click(function(e) {
     //this adds the box selected to the cart
     e.preventDefault();
 
@@ -241,12 +278,9 @@ if (typeof jQuery === 'undefined') {
         $.ajax(params);
       }
       else {        
-        document.location.href = '/cart';
+        document.location.href = '/checkout';
       }  
     }; // end moveAlong()
-
-    //if statement for what allows an individual to load to cart
-    // focus on subTotal being greater then $15
     for(i=0; i < cartLen; i++){
       if(currentCart[i] !== "") {
         toAdd.push({
@@ -254,12 +288,13 @@ if (typeof jQuery === 'undefined') {
         quantity_id: currentCart[i].qty
         });
       }
-    }
+    } 
+    //if statement for what allows an individual to load to cart
+    // focus on subTotal being greater then $15
     moveAlong();
   }); //end submit-table
     
 </script>
-
 
 
 
