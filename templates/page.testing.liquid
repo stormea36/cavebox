@@ -41,6 +41,10 @@
           <label>Your Box:</label>
           <div class="cartHolder">
             <div class="cartList"></div> <!--end cart List -->
+            {% for item in cart.items %}
+              
+
+            {% endfor %}
           </div> <!-- end cartHolder -->
           <div class="cartRow"><label class="cartLabel">SubTotal:</label><span id="cartSub">$0.00</span></div>
           <div class="cartRow"><label class="cartLabel">Shipping:</label><span id="cartShip"></span></div>
