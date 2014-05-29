@@ -40,14 +40,19 @@
         <div class="cartSection">
           <label>Your Box:</label>
           <div class="cartHolder">
-            <div class="cartList"></div> <!--end cart List -->
-            {% for item in cart.items %}
-              
-
+            <div class="cartList">
+              {% for item in cart.items %}
+              <div class='cartItem' id="{{ item.id }}">
+                <span class='cRemove fa fa-trash-o' id=remove"{{ item.id }}" data-index="{{ item.id }}"></span>
+                <span class='cQty cDiv'>{{ item.quantity }} </span><span class='fa fa-times cTimes'></span>
+                <div class='cTitle cDiv'>{{ item.product.title }}</div>
+                <div class='cPrice cDiv'>{{ item.line_price | money }}</div>
+              </div>
             {% endfor %}
+          </div> <!--end cart List -->
+            
           </div> <!-- end cartHolder -->
-          <div class="cartRow"><label class="cartLabel">SubTotal:</label><span id="cartSub">$0.00</span></div>
-          <div class="cartRow"><label class="cartLabel">Shipping:</label><span id="cartShip"></span></div>
+          <div class="cartRow"><label class="cartLabel">SubTotal:</label><span id="cartSub">{{ cart.total_price | money }}</span></div>
           <div class="cartRow"><label class="cartLabel">Total:</label><span id="cartTot"></span></div>
           <div class="submit-bttn">
           <input type="submit" class="bttn" name="add" value="Proceed to Cart" id="submit-modal"/>
@@ -237,7 +242,7 @@
         <div id="cartModalBody">
           
         </div>
-        <div class="cartMRow"><label class="cartMLabel">SubTotal:</label><span id="cartMSub">$0.00</span></div>
+        <div class="cartMRow"><label class="cartMLabel">SubTotal:</label><span id="cartMSub">{{ cart.total_price | money }}</span></div>
           <div class="cartMRow"><label class="cartMLabel">Shipping:</label><span id="cartMShip"></span></div>
           <div class="cartMRow"><label class="cartMLabel">Total:</label><span id="cartMTot"></span></div>
         <button type="button" class="btn btn-primary" name="checkout"id="checkout">Check out</button>
@@ -252,5 +257,5 @@
  
 
   
-  {% include 'order-form-script' %}
+  {% include 'page-testing' %}
   {% include 'builderv3-style' %}
