@@ -222,7 +222,7 @@ if (typeof jQuery === 'undefined') {
       //the other with item variants
   }  
   
-  $(document).on("click", ".cRemove", function() {
+  $(document).on("click", ".cRemove", function() { //this MAY stay 
     index = $(this).data("index");
     item = "#"+currentCart[index].id;
     iVar = currentCart[index].variant;
@@ -291,7 +291,7 @@ if (typeof jQuery === 'undefined') {
     cartLen = currentCart.length;
   }); //end item click()
     
-  $('.category').click(function() {
+  $('.category').click(function() { //this will stay 
 
     clicked_step = "#step_"+$(this).data("id");
     clicked_stepH = "#stepH"+$(this).data("id");
@@ -322,7 +322,7 @@ if (typeof jQuery === 'undefined') {
      }
   }) //end category click()
    
-  $("#submit-modal").click(function(e) {
+  $("#submit-modal").click(function(e) { //this will stay 
     e.preventDefault();
     //loop through cart object for still existing items?
     cartHtml = $(".cartList").html();
@@ -346,7 +346,7 @@ if (typeof jQuery === 'undefined') {
   });
   //inject items into #cartModal
   //adjust cart-items to avoid float-left issue
-  $('#cartModal').on('show', function () {
+  $('#cartModal').on('show', function () { //this will stay 
        $(this).find('.modal-body').css({
               width:'auto', //probably not needed
               height:'auto', //probably not needed 
@@ -354,7 +354,7 @@ if (typeof jQuery === 'undefined') {
        });
   });
 
-  $("#checkout").click(function(e) {
+  $("#checkout").click(function(e) { //this will stay 
     //this adds the box selected to the cart
     e.preventDefault();
 

@@ -11,6 +11,47 @@ if (typeof jQuery === 'undefined') {
 <script>
   console.log("this is the page-testing script") 
   
+  $('.item-tip').popover({ 
+    trigger: "hover",
+    html: true
+  });
+
+  $('#myModal').modal({show:true})
+
+
+  freeShip = 3000;
+  //variables necessary for category functions
+  last_step = '#step_1';
+  last_step_header = '#stepH1';
+  //variables for item + cart management
+  currentCart = [];
+  cartObject =[];
+  toAdd = [];
+  /************* on site load *************/
+  //call getCart function and populate the cart area
+  //add each item id to the currentCart array 
+
+  /************* on item click *************/
+  //add item to cart and call the getCart function
+    //adjust function call to loop through and compare whether item is in cart array or not
+    //if not, append to end of cart area
+  /************* on item delete *************/
+
+  //when an item is clicked, it is added to the currentCart array (stored in a session)
+  // and calls the Shopify.addItem API function
+
+  /*
+   *
+   *
+   *
+   *
+    ******************* Shopify API functions section *******************
+   *
+   *
+   *
+   *
+  */
+
   Shopify.addItem = function(variant_id, quantity, callback) {
     var quantity = quantity || 1;
     var params = {
@@ -105,164 +146,94 @@ if (typeof jQuery === 'undefined') {
     jQuery.ajax(params);
   };
 
+  /*
+   *
+   *
+   *
+   *
+    ******************* cart specific functionality section *******************
+   *
+   *
+   *
+   *
+  */
 
-
-  $('.item-tip').popover({ 
-    trigger: "hover",
-    html: true
-  });
-
-  $('#myModal').modal({
-  show:true
-})
-
-  //variables for new product builder
-  minPrice = 1500;
-  shipCost = 500;
-  freeShip = 3000;
-
-  last_step = '#step_1';
-  last_step_header = '#stepH1';
-  currentCart = [];
-  cartLen = currentCart.length;
-  toAdd = [];
-
-  function priceFormat(value) {
-    val = value/100;
-    if( val.length = 1 ) { val = "$"+val }
-    else { val = "$"+val }
-    return val;
-  }
-
-  function priceAdjust(qty, price) {
-    sub = qty * price;
-    return sub;
-  }
-  // cartDisplay() function updates the items in the cart
-  // index argument passes the ID of the proper item
-  // age argument passes whether new item or existing item
-  function cartDisplay(index, age) {
-      //variables to pull from item   
-      cIndex = index;
-      crtItmTitle = currentCart[cIndex].title;
-      crtItmQty = currentCart[cIndex].qty;
-      crtItmPrice = currentCart[cIndex].subPrice;
-      crtItmPrice = priceFormat(crtItmPrice);
-      //update cartTotals
-      cartTotals();
-
-      
-      //if new (age == 1) append the cart structure to cartList
-      //if not new (age == 2), adjust values based on cart object
-      if(age == 1) { // new item --> append cartItem structure
-        //title adjustment for length
-        if (crtItmTitle.length > 27) {
-          crtItmTitle = crtItmTitle.substr(0,24) + '...';     
-        }
-
-      }
-      else if(age == 2) { //existing item --> update cPrice and cQty
-
-      }   
-  } //end cartDisplay function()
-
-  function cartTotals() {
-    //use to update box total cost:
-    //use the shopify jquery money format to adjust value
-    //on modal, show shipping cost and *note saying it wont show til end
-
-    shipping = shipCost;
-    total = 0;
-    // calculate cost with Shopify.getCart()
-    Shopify.getCart( function(cart) {
-      
-      $("#cartTot").html("");
-    })
-    
-    $("#cartMTot").html(total);
-  } //end cartTotals function()
-
-  function sessionRead(exchange) {
-    //sessionRead is for loading values from sessionStorage
-    //sR() will work by storing the item ids into individual keys
-    //or store the ids, then break them apart?
-    //consider this instead
-    //since items are added to cart,
-    //loop through cart checking items against session variants
-    //if same items, populate with item ids
-      //store two values, string with item ids
-      //the other with item variants
-  }  
-  
-  $(document).on("click", ".cRemove", function() {
-    index = $(this).data("index");
-    item = "#"+currentCart[index].id;
-    iVar = currentCart[index].variant;
-    //set picked item to zero
-    $(item).attr("picked","");
-    //remove item from cart
-    Shopify.removeItem(iVar);
-
-    //currentCart.splice(index,1);
-    currentCart[index]="";
-    //remove item from cartList
-    $(this).parent().remove();
-    //update cart values
-    cartTotals();
-  }); // cRemove click()
-
+  //cartDisplay() is called at load time to pre-populate the cart
+  //var load lets cart know whether new item or loading whole cart
   $('.item').click(function(event) {    
     event.preventDefault();
 
-    //variables to collect for item object
-    iTitle = $(this).data("title");
     iVariant = $(this).data("var");
-    iPrice = $(this).data("price");
-    iPic = $(this).data("pic");
-    iId = $(this).attr("id");
-    iPick = $(this).attr("picked");
-
-    if(iPick == "") { //item not in cart so add to cart        
-        
-        Shopify.addItem(iVariant,1);
-
-        currentCart.push({
-              title:iTitle,
-              variant:iVariant,
-              price:iPrice,
-              subPrice:iPrice,
-              id:iId,
-              picture:iPic,
-              qty:1
-            })
-        //push object to currentCart
-        //loop through currentCart matching value to object.iId
-        //store position of object
-
-        for(i=0;i<=cartLen;i++) {
-          if(currentCart[i].id == iId) {
-            // loop through cart and find position of item
-            // use index to update cart and set picked to 1
-            $(this).attr("picked",i);
-            cartDisplay(i, 1);
-            break
-          } //end if
-        } //end for loop
-    } //end if
-    else { //item already in cart, adjust necessary values
-      // add item again to cart
-      // add 1 to object.qty
-      //adjust object.subPrice
-
-      currentCart[iPick].qty += 1;
-      currentCart[iPick].subPrice = priceAdjust(currentCart[iPick].qty, iPrice);
-      cartDisplay(iPick, 2);
-      Shopify.changeItem(currentCart[iPick].variant,currentCart[iPick].qty);
-    }
-
-    cartLen = currentCart.length;
-  }); //end item click()
+    Shopify.addItem(iVariant,1,function(){console.log("item added")});
     
+    setTimeout(cartDisplay,500);
+  }); //end item click()
+  
+  function cartDisplay() {
+      $(".cartList").html("");
+
+      Shopify.getCart( function(c) {
+        //update cart total cost
+        $("#cartTot").html("");
+        cartPrice = c.total_price;
+        cartPrice = priceFormat(cartPrice);
+        $("#cartTot").html(cartPrice);
+        for(i=0;i<c.items.length;i++) {
+          
+          //variables for title and currentCart array
+          crtItmTitle = c.items[i].title;
+          currentCart[i] = c.items[i].id;
+          linePrice = c.items[i].line_price;
+          linePrice = priceFormat(linePrice);
+          itemTemp = "#"+c.items[i].id;
+
+          //adjust length of title
+          if (crtItmTitle.length > 27) {
+            crtItmTitle = crtItmTitle.substr(0,24) + '...';     
+          }
+
+          $(".cartList").append(
+          "<div class='cartItem' style='display: none;' id="+c.items[i].id+">"+
+          "<span class='cRemove fa fa-trash-o' id=remove"+c.items[i].id+" data-index="+c.items[i].id+"></span>"+
+          "<span class='cQty cDiv' id='cQty"+c.items[i].id+"'>"+c.items[i].quantity+"</span><span class='fa fa-times cTimes'></span>"+
+          "<div class='cTitle cDiv'>"+crtItmTitle+"</div>"+
+          "<div class='cPrice cDiv'id='cPrice"+c.items[i].id+"'>"+linePrice+"</div>"+
+          "</div>");
+
+          $(itemTemp).show("slow");
+          cartObject.push(c.items[i]);
+        }
+      }) //end Shopify.getCart()
+  } //end cartDisplay function()
+  cartDisplay();
+
+  function priceFormat(value) {
+    val = (value / 100).toFixed(2);
+    val = "$"+val;
+    return val;
+  }
+  
+  $(document).on("click", ".cRemove", function() {
+    index = $(this).attr("data-index");
+    console.log(index);
+    item = "#"+index;
+    
+    //remove item from cart
+    Shopify.removeItem(index);
+    //adjust cost
+    //remove from currentCart array
+    for(i=0;i<currentCart.length;i++) {
+      console.log("index: "+index+" and the currentCart: " + currentCart[i])
+      if(index == currentCart[i]) {
+        console.log("index: "+index+" matches currentCart: " + currentCart[i])
+        currentCart.splice(i,1);
+      }
+    }
+    //remove item from cartList
+    $(this).parent().remove();
+  }); // cRemove click()
+
+
   $('.category').click(function() {
 
     clicked_step = "#step_"+$(this).data("id");
@@ -293,14 +264,41 @@ if (typeof jQuery === 'undefined') {
        $(last_step_header).toggleClass("current_step");
      }
   }) //end category click()
-   
+
   $("#submit-modal").click(function(e) {
     e.preventDefault();
     //loop through cart object for still existing items?
     cartHtml = $(".cartList").html();
     $("#cartModalBody").html("");
-    
-    for(i=0; i < cartLen; i++){
+    /*
+    for(i=0;i<c.items.length;i++) {
+
+          //variables for title and currentCart array
+          crtItmTitle = c.items[i].title;
+          currentCart[i] = c.items[i].id;
+          linePrice = c.items[i].line_price;
+          linePrice = priceFormat(linePrice);
+          itemTemp = "#"+c.items[i].id;
+
+          //adjust length of title
+          if (crtItmTitle.length > 27) {
+            crtItmTitle = crtItmTitle.substr(0,24) + '...';     
+          }
+
+          $(".cartList").append(
+            "<div class='cartItem' style='display: none;' id="+c.items[i].id+">"+
+            "<span class='cRemove fa fa-trash-o' id=remove"+c.items[i].id+" data-index="+c.items[i].id+"></span>"+
+            "<span class='cQty cDiv' id='cQty"+c.items[i].id+"'>"+c.items[i].quantity+"</span><span class='fa fa-times cTimes'></span>"+
+            "<div class='cTitle cDiv'>"+crtItmTitle+"</div>"+
+            "<div class='cPrice cDiv'id='cPrice"+c.items[i].id+"'>"+linePrice+"</div>"+
+            "</div>");
+
+          $(itemTemp).show("slow");
+          cartObject.push(c.items[i]);
+        }
+    */
+    //use above code to replace this for loop using this syntax
+    for(i=0; i < currentCart.length; i++){
       if(currentCart[i] !== "") {
         tempPrice = priceFormat(currentCart[i].subPrice);
         $("#cartModalBody").append(

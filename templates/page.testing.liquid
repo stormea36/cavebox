@@ -41,18 +41,10 @@
           <label>Your Box:</label>
           <div class="cartHolder">
             <div class="cartList">
-              {% for item in cart.items %}
-              <div class='cartItem' id="{{ item.id }}">
-                <span class='cRemove fa fa-trash-o' id=remove"{{ item.id }}" data-index="{{ item.id }}"></span>
-                <span class='cQty cDiv'>{{ item.quantity }} </span><span class='fa fa-times cTimes'></span>
-                <div class='cTitle cDiv'>{{ item.product.title }}</div>
-                <div class='cPrice cDiv'>{{ item.line_price | money }}</div>
-              </div>
-            {% endfor %}
-          </div> <!--end cart List -->
+            </div> <!--end cart List -->
             
           </div> <!-- end cartHolder -->
-          <div class="cartRow"><label class="cartLabel">SubTotal:</label><span id="cartSub">{{ cart.total_price | money }}</span></div>
+          <div class="cartRow"><label class="cartLabel">SubTotal:</label><span id="cartSub"></span></div>
           <div class="cartRow"><label class="cartLabel">Total:</label><span id="cartTot"></span></div>
           <div class="submit-bttn">
           <input type="submit" class="bttn" name="add" value="Proceed to Cart" id="submit-modal"/>
